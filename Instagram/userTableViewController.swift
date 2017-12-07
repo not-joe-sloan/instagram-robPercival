@@ -15,31 +15,31 @@ class userTableViewController: UITableViewController {
     var objectIDs = [String]()
     var isFollowing = [String : Bool]()
     
-
+    var refresher: UIRefreshControl = UIRefreshControl()
+    
     @IBAction func logoutUser(_ sender: Any) {
         
         PFUser.logOut()
         performSegue(withIdentifier: "logoutSegue", sender: self)
         
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    
+    @objc func updateTable() {
         //Create a user query
         let query = PFUser.query()
         
-        query?.whereKey("username", notEqualTo: PFUser.current()?.username)
+        query?.whereKey("username", notEqualTo: PFUser.current()?.username as Any)
         
         //Get all the objects of user data
         query?.findObjectsInBackground(block: { (users, error) in
             
             //If there's an error, print it
             if error != nil {
-                print(error)
-            //If there are users returned
+                print(error as Any)
+                //If there are users returned
             }else if let users = users{
                 for object in users {
-                 //check it we can use object as a user
+                    //check it we can use object as a user
                     if let user = object as? PFUser {
                         if let username = user.username{
                             
@@ -48,7 +48,7 @@ class userTableViewController: UITableViewController {
                                 self.objectIDs.append(user.objectId!)
                                 
                                 let query = PFQuery(className: "Following")
-                                query.whereKey("follower", equalTo: PFUser.current()?.objectId)
+                                query.whereKey("follower", equalTo: PFUser.current()?.objectId! as Any)
                                 query.whereKey("following", equalTo: objectId)
                                 query.findObjectsInBackground(block: { (objects, error) in
                                     if let objects = objects{
@@ -58,7 +58,11 @@ class userTableViewController: UITableViewController {
                                         }else{
                                             self.isFollowing[objectId] = false
                                         }
-                                        self.tableView.reloadData()
+                                        
+                                        if self.usernames.count == self.isFollowing.count{
+                                            self.tableView.reloadData()
+                                            self.refresher.endRefreshing()
+                                        }
                                     }
                                 })
                             }
@@ -68,11 +72,16 @@ class userTableViewController: UITableViewController {
                     }
                 }
             }
-            
-            
         })
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        
+        updateTable()
+        refresher.attributedTitle = NSAttributedString(string: "Pull to Refresh")
+        refresher.addTarget(self, action: #selector(userTableViewController.updateTable), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refresher)
+
     }
 
     override func didReceiveMemoryWarning() {
