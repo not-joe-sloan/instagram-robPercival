@@ -110,11 +110,31 @@ class userTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        cell?.accessoryType = UITableViewCellAccessoryType.checkmark
-        let following = PFObject(className: "Following")
-        following["follower"] = PFUser.current()?.objectId
-        following["following"] = objectIDs[indexPath.row]
-        following.saveInBackground()
+        
+        if let followsBoolean = isFollowing[objectIDs[indexPath.row]]{
+            if followsBoolean {
+                isFollowing[objectIDs[indexPath.row]] = false
+                cell?.accessoryType = UITableViewCellAccessoryType.none
+                let query = PFQuery(className: "Following")
+                query.whereKey("follower", equalTo: PFUser.current()?.objectId)
+                query.whereKey("following", equalTo: objectIDs[indexPath.row])
+                query.findObjectsInBackground(block: { (objects, error) in
+                    if let objects = objects{
+                        for object in objects {
+                            object.deleteInBackground()
+                        }
+                    }
+                })
+            }else{
+                isFollowing[objectIDs[indexPath.row]] = true
+                cell?.accessoryType = UITableViewCellAccessoryType.checkmark
+                let following = PFObject(className: "Following")
+                following["follower"] = PFUser.current()?.objectId
+                following["following"] = objectIDs[indexPath.row]
+                following.saveInBackground()
+            }
+        }
+        
     }
 
     /*
