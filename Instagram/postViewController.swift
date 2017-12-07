@@ -63,9 +63,23 @@ class postViewController: UIViewController, UINavigationControllerDelegate, UIIm
             post["message"] = captionField.text
             post["userId"] = PFUser.current()?.objectId
             if let imageData = UIImagePNGRepresentation(image){
+                
+                //Start a spinner
+                let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+                activityIndicator.center = self.view.center
+                activityIndicator.hidesWhenStopped = true
+                activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+                view.addSubview(activityIndicator)
+                activityIndicator.startAnimating()
+                UIApplication.shared.beginIgnoringInteractionEvents()
+                
                 let imageFile = PFFile(name: "image.png", data: imageData)
                 post["imageFile"] = imageFile
                 post.saveInBackground(block: { (success, error) in
+                    
+                    activityIndicator.stopAnimating()
+                    UIApplication.shared.endIgnoringInteractionEvents()
+                    
                     if success {
                         self.displayAlert(title: "Image Posted!", message: "Your image has been posted successfully!")
                         self.captionField.text = ""
