@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150726901FD8C9F300C680A0 /* userTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1507268F1FD8C9F300C680A0 /* userTableViewController.swift */; };
 		15572BD91FCFB51E003D1609 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15572BD81FCFB51E003D1609 /* AppDelegate.swift */; };
 		15572BDB1FCFB51E003D1609 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15572BDA1FCFB51E003D1609 /* ViewController.swift */; };
 		15572BDE1FCFB51E003D1609 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15572BDC1FCFB51E003D1609 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1507268F1FD8C9F300C680A0 /* userTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userTableViewController.swift; sourceTree = "<group>"; };
 		15572BD51FCFB51E003D1609 /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15572BD81FCFB51E003D1609 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15572BDA1FCFB51E003D1609 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 				15572BD81FCFB51E003D1609 /* AppDelegate.swift */,
 				15572BDA1FCFB51E003D1609 /* ViewController.swift */,
 				15572BDC1FCFB51E003D1609 /* Main.storyboard */,
+				1507268F1FD8C9F300C680A0 /* userTableViewController.swift */,
 				15572BDF1FCFB51E003D1609 /* Assets.xcassets */,
 				15572BE11FCFB51E003D1609 /* LaunchScreen.storyboard */,
 				15572BE41FCFB51E003D1609 /* Info.plist */,
@@ -220,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				15572BDB1FCFB51E003D1609 /* ViewController.swift in Sources */,
+				150726901FD8C9F300C680A0 /* userTableViewController.swift in Sources */,
 				15572BD91FCFB51E003D1609 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
