@@ -14,6 +14,9 @@
 		15572BDE1FCFB51E003D1609 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15572BDC1FCFB51E003D1609 /* Main.storyboard */; };
 		15572BE01FCFB51E003D1609 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15572BDF1FCFB51E003D1609 /* Assets.xcassets */; };
 		15572BE31FCFB51E003D1609 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15572BE11FCFB51E003D1609 /* LaunchScreen.storyboard */; };
+		15AA03031FD9E15D006EB2BF /* feedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA03021FD9E15D006EB2BF /* feedTableViewController.swift */; };
+		15AA03051FD9E2BA006EB2BF /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA03041FD9E2BA006EB2BF /* TableViewCell.swift */; };
+		15AA030A1FD9E9E9006EB2BF /* kitten.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 15AA03091FD9E9E9006EB2BF /* kitten.jpg */; };
 		F186792BB67B41045DF613E3 /* Pods_Instagram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDDF489C559914720A5F8CD6 /* Pods_Instagram.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +30,9 @@
 		15572BDF1FCFB51E003D1609 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15572BE21FCFB51E003D1609 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15572BE41FCFB51E003D1609 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		15AA03021FD9E15D006EB2BF /* feedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feedTableViewController.swift; sourceTree = "<group>"; };
+		15AA03041FD9E2BA006EB2BF /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		15AA03091FD9E9E9006EB2BF /* kitten.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kitten.jpg; sourceTree = "<group>"; };
 		4D5232AABF58A33929BC8DFD /* Pods-Instagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Instagram/Pods-Instagram.release.xcconfig"; sourceTree = "<group>"; };
 		591BEDF7CC433465259DFB7D /* Pods-Instagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Instagram/Pods-Instagram.debug.xcconfig"; sourceTree = "<group>"; };
 		BDDF489C559914720A5F8CD6 /* Pods_Instagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,11 +74,14 @@
 				15572BD81FCFB51E003D1609 /* AppDelegate.swift */,
 				15572BDA1FCFB51E003D1609 /* ViewController.swift */,
 				15572BDC1FCFB51E003D1609 /* Main.storyboard */,
+				15AA03041FD9E2BA006EB2BF /* TableViewCell.swift */,
+				15AA03021FD9E15D006EB2BF /* feedTableViewController.swift */,
 				1505C94F1FD9A50500400D52 /* postViewController.swift */,
 				1507268F1FD8C9F300C680A0 /* userTableViewController.swift */,
 				15572BDF1FCFB51E003D1609 /* Assets.xcassets */,
 				15572BE11FCFB51E003D1609 /* LaunchScreen.storyboard */,
 				15572BE41FCFB51E003D1609 /* Info.plist */,
+				15AA03091FD9E9E9006EB2BF /* kitten.jpg */,
 			);
 			path = Instagram;
 			sourceTree = "<group>";
@@ -156,6 +165,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15AA030A1FD9E9E9006EB2BF /* kitten.jpg in Resources */,
 				15572BE31FCFB51E003D1609 /* LaunchScreen.storyboard in Resources */,
 				15572BE01FCFB51E003D1609 /* Assets.xcassets in Resources */,
 				15572BDE1FCFB51E003D1609 /* Main.storyboard in Resources */,
@@ -228,6 +238,8 @@
 				1505C9501FD9A50500400D52 /* postViewController.swift in Sources */,
 				15572BDB1FCFB51E003D1609 /* ViewController.swift in Sources */,
 				150726901FD8C9F300C680A0 /* userTableViewController.swift in Sources */,
+				15AA03051FD9E2BA006EB2BF /* TableViewCell.swift in Sources */,
+				15AA03031FD9E15D006EB2BF /* feedTableViewController.swift in Sources */,
 				15572BD91FCFB51E003D1609 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
