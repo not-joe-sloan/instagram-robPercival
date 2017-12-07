@@ -24,12 +24,11 @@ class postViewController: UIViewController, UINavigationControllerDelegate, UIIm
         self.present(alert, animated: true, completion: nil)
     }
 
+    //OUTLETS
     @IBOutlet weak var imageToPost: UIImageView!
-    
-    
     @IBOutlet weak var captionField: UITextField!
     
-    
+    //ACTIONS
     @IBAction func chooseImage(_ sender: Any) {
         
         
@@ -38,6 +37,8 @@ class postViewController: UIViewController, UINavigationControllerDelegate, UIIm
         imagePicker.delegate = self
         imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         imagePicker.allowsEditing = false
+        
+        //Present the imagePicker
         self.present(imagePicker, animated: true, completion: nil)
     }
     
@@ -57,14 +58,19 @@ class postViewController: UIViewController, UINavigationControllerDelegate, UIIm
     
     @IBAction func postPhoto(_ sender: Any) {
         
-        
+        //If there's a photo set in the frame
         if let image = imageToPost.image {
+            //Create a new Post object
             let post = PFObject(className: "Post")
+            
+            //Set the object's attributes
             post["message"] = captionField.text
             post["userId"] = PFUser.current()?.objectId
+            
+            //If the data's right for it...
             if let imageData = UIImagePNGRepresentation(image){
                 
-                //Start a spinner
+                //Start a spinner...
                 let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
                 activityIndicator.center = self.view.center
                 activityIndicator.hidesWhenStopped = true
@@ -73,6 +79,7 @@ class postViewController: UIViewController, UINavigationControllerDelegate, UIIm
                 activityIndicator.startAnimating()
                 UIApplication.shared.beginIgnoringInteractionEvents()
                 
+                //And save the image
                 let imageFile = PFFile(name: "image.png", data: imageData)
                 post["imageFile"] = imageFile
                 post.saveInBackground(block: { (success, error) in

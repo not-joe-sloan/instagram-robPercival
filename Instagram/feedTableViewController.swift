@@ -13,6 +13,7 @@ import Parse
 
 class feedTableViewController: UITableViewController {
     
+    //Create a bumch of containers to store arrays of all the data we're about to get.
     var users = [String: String]()
     var comments = [String]()
     var usernames = [String]()
@@ -21,31 +22,47 @@ class feedTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Create a query for users who aren't me
         let query = PFUser.query()
         query?.whereKey("username", notEqualTo: PFUser.current()?.username)
+        
+        //Run the query...
         query?.findObjectsInBackground(block: { (objects, error) in
+            
+            //If there are any user objects...
             if let users = objects {
                 for object in users{
+                    //
                     if let user = object as? PFUser{
+                        //Set the object ID to their username
                         self.users[user.objectId!] = user.username!
                         
                     }
                 }
             }
             
-            //When query is complete,
+            //When query for other users is complete, define another that narrows down to users I'm following
             let getFollowedUsersQuery = PFQuery(className: "Following")
+            
+            //Find all users where I'm listed as a follower.
             getFollowedUsersQuery.whereKey("follower", equalTo: PFUser.current()?.objectId)
             getFollowedUsersQuery.findObjectsInBackground(block: { (objects, error) in
+                //If there are any results...
                 if let followers = objects {
+                    //For each followed user returned as a result...
                     for follower in followers{
                         if let followedUser = follower["following"] {
+                            
+                            //Look for their posts, including the comments.
                             let query = PFQuery(className: "Post")
                             query.whereKey("userId", equalTo:  followedUser)
                             query.findObjectsInBackground(block: { (objects, error) in
+                                
+                                //If there any posts...
                                 if let posts = objects {
                                     for post in posts{
                                         
+                                        //Update all our arrays with each post's info, sequentially.
                                         self.comments.append(post["message"] as! String)
                                         self.usernames.append(post["userId"] as! String)
                                         self.imageFiles.append(post["imageFile"] as! PFFile)
@@ -83,9 +100,25 @@ class feedTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         
-
-        cell.postedImage.image = UIImage(named: "kitten.jpg")
         
+        
+        imageFiles[indexPath.row].getDataInBackground { (data, error) in
+            
+            //If there's any data stored...
+            if let imageData = data {
+                
+                //And if that data can look like a UIImage...
+                if let imageToDisplay = UIImage(data: imageData){
+                    
+                    //Set the cell's image to that UIImage
+                    cell.postedImage.image = imageToDisplay
+                }
+                
+            }
+            
+        }
+        
+        //Set the comment & username
         cell.commentLabel.text = comments[indexPath.row]
         cell.userLabel.text = usernames[indexPath.row]
         
