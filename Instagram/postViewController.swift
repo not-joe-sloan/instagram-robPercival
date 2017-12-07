@@ -7,8 +7,22 @@
 //
 
 import UIKit
+import Parse
 
 class postViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    func displayAlert(title: String, message: String){
+        //Create an alert called "Error in Form" with a subtitle.  Normal Styling.
+        let alert = UIAlertController(title: title as String, message: message as String, preferredStyle: UIAlertControllerStyle.alert)
+        
+        //Add an action to the alert for the user to dismiss it.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        
+        //Present the alert, don't do anything when it's dismissed.
+        self.present(alert, animated: true, completion: nil)
+    }
 
     @IBOutlet weak var imageToPost: UIImageView!
     
@@ -17,6 +31,9 @@ class postViewController: UIViewController, UINavigationControllerDelegate, UIIm
     
     
     @IBAction func chooseImage(_ sender: Any) {
+        
+        
+        //Define an imagePicker
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
@@ -40,6 +57,25 @@ class postViewController: UIViewController, UINavigationControllerDelegate, UIIm
     
     @IBAction func postPhoto(_ sender: Any) {
         
+        
+        if let image = imageToPost.image {
+            let post = PFObject(className: "Post")
+            post["message"] = captionField.text
+            post["userId"] = PFUser.current()?.objectId
+            if let imageData = UIImagePNGRepresentation(image){
+                let imageFile = PFFile(name: "image.png", data: imageData)
+                post["imageFile"] = imageFile
+                post.saveInBackground(block: { (success, error) in
+                    if success {
+                        self.displayAlert(title: "Image Posted!", message: "Your image has been posted successfully!")
+                        self.captionField.text = ""
+                        self.imageToPost.image = nil
+                    }else{
+                        self.displayAlert(title: "Error", message: "Image could not be posted")
+                    }
+                })
+            }
+        }
         
         
     }
