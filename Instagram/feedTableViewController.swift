@@ -7,17 +7,59 @@
 //
 
 import UIKit
+import Parse
+
+
 
 class feedTableViewController: UITableViewController {
-
+    
+    var users = [String: String]()
+    var comments = [String]()
+    var usernames = [String]()
+    var imageFiles = [PFFile]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let query = PFUser.query()
+        query?.whereKey("username", notEqualTo: PFUser.current()?.username)
+        query?.findObjectsInBackground(block: { (objects, error) in
+            if let users = objects {
+                for object in users{
+                    if let user = object as? PFUser{
+                        self.users[user.objectId!] = user.username!
+                        
+                    }
+                }
+            }
+            
+            //When query is complete,
+            let getFollowedUsersQuery = PFQuery(className: "Following")
+            getFollowedUsersQuery.whereKey("follower", equalTo: PFUser.current()?.objectId)
+            getFollowedUsersQuery.findObjectsInBackground(block: { (objects, error) in
+                if let followers = objects {
+                    for follower in followers{
+                        if let followedUser = follower["following"] {
+                            let query = PFQuery(className: "Post")
+                            query.whereKey("userId", equalTo:  followedUser)
+                            query.findObjectsInBackground(block: { (objects, error) in
+                                if let posts = objects {
+                                    for post in posts{
+                                        
+                                        self.comments.append(post["message"] as! String)
+                                        self.usernames.append(post["userId"] as! String)
+                                        self.imageFiles.append(post["imageFile"] as! PFFile)
+                                        self.tableView.reloadData()
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+            })
+            
+        })
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,7 +76,7 @@ class feedTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 4
+        return comments.count
     }
 
 
@@ -44,8 +86,8 @@ class feedTableViewController: UITableViewController {
 
         cell.postedImage.image = UIImage(named: "kitten.jpg")
         
-        cell.commentLabel.text = "Here's a kitten"
-        cell.userLabel.text = "User Name"
+        cell.commentLabel.text = comments[indexPath.row]
+        cell.userLabel.text = usernames[indexPath.row]
         
         return cell
     }
